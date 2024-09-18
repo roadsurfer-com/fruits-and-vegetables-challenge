@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
-class StorageService
+final class StorageService
 {
-    protected string $request = '';
+    private string $request = '';
 
     public function __construct(
         string $request
-    )
-    {
+    ) {
         $this->request = $request;
     }
 
