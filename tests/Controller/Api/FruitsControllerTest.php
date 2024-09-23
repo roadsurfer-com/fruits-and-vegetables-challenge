@@ -72,7 +72,7 @@ class FruitsControllerTest extends WebTestCase
     public function testCanAddNewFruit(): void
     {
         //Arrange
-        $fruitData = ['name' => 'Orange', 'quantity' => 1000];
+        $fruitData = ['name' => 'Orange', 'quantity' => 1000.0];
 
         //Act
         $this->client->request(
