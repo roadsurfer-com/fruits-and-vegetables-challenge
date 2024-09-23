@@ -9,6 +9,9 @@ use App\Entity\Fruit;
 use ArrayIterator;
 use ArrayObject;
 
+/**
+ * @extends ArrayObject<int, Entity>
+ */
 class AbstractCollection extends ArrayObject
 {
     /**
@@ -23,8 +26,12 @@ class AbstractCollection extends ArrayObject
         $this->asort();
     }
 
+    /**
+     * @return ArrayIterator<int, Entity>
+     */
     public function list(): ArrayIterator
     {
+        /** @var ArrayIterator<int, Entity> */
         return $this->getIterator();
     }
 

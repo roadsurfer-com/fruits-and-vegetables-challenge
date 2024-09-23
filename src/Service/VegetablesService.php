@@ -34,13 +34,16 @@ final class VegetablesService
 
     public function remove(int $id): void
     {
-        $this->entityManager->remove($this->vegetableRepository->find($id));
-        $this->entityManager->flush();
+        $vegetable = $this->vegetableRepository->find($id);
+        if ($vegetable) {
+            $this->entityManager->remove($vegetable);
+            $this->entityManager->flush();
+        }
     }
 
     /**
      * @param array<int, Vegetable> $vegetables
-     * @param string            $unit
+     * @param string                $unit
      *
      * @return array<int, Vegetable>
      */

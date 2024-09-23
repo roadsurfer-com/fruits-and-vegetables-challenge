@@ -62,7 +62,7 @@ class FruitCollectionTest extends TestCase
         }
 
         //Act
-        $this->sut->remove($fruits[0]->getId());
+        $this->sut->remove((int)$fruits[0]->getId());
 
         //Assert
         $this->assertEquals(count($fruits) - 1, $this->sut->list()->count());

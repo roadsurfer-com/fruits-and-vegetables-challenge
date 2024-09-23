@@ -19,7 +19,7 @@ class StorageServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->request = file_get_contents('request.json');
+        $this->request = (string)file_get_contents('request.json');
         $this->typedTransferFactory = $this->createMock(TypedTransferFactory::class);
     }
 

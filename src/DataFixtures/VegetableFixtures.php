@@ -44,6 +44,6 @@ final class VegetableFixtures extends Fixture
 
     private function getRequest(): string
     {
-        return file_get_contents($this->projectDirectory . self::REQUEST_FILE_NAME);
+        return (string)file_get_contents($this->projectDirectory . self::REQUEST_FILE_NAME);
     }
 }

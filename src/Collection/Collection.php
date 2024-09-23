@@ -13,6 +13,9 @@ interface Collection
 
     public function add(Entity $entity): void;
 
+    /**
+     * @return ArrayIterator<int, Entity>
+     */
     public function list(): ArrayIterator;
 
     public function remove(int $id): void;

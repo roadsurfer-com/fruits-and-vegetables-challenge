@@ -12,7 +12,7 @@ use App\Entity\Fruit;
 final class FruitFactory implements TypedTransferFactory
 {
     /**
-     * @param array<string,mixed> $data
+     * @param array<string,string|float|int> $data
      *
      * @return Entity&Fruit
      */
@@ -21,11 +21,11 @@ final class FruitFactory implements TypedTransferFactory
         $aFruit = new Fruit();
 
         if (isset($data['id'])) {
-            $aFruit->setId($data['id']);
+            $aFruit->setId((int)$data['id']);
         }
 
-        $aFruit->setName($data['name']);
-        $aFruit->setQuantity($data['quantity']);
+        $aFruit->setName((string)$data['name']);
+        $aFruit->setQuantity((float)$data['quantity']);
 
         return $aFruit;
     }

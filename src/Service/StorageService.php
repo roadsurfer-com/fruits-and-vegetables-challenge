@@ -32,22 +32,32 @@ final class StorageService implements TypedTransferAwareStorageService
         return $collection;
     }
 
+
+    /**
+     * @param array<string, string|float|int> $rawEntityData
+     *
+     * @return array<string, string|float|int>
+     */
     private function convertToGrams(array $rawEntityData): array
     {
         if ($rawEntityData['unit'] === 'kg') {
-            $rawEntityData['quantity'] *= 1000;
+            $rawEntityData['quantity'] = (float)$rawEntityData['quantity'] * 1000;
         }
 
         return $rawEntityData;
     }
 
+    /**
+     * @return array<int, array<string, string|float|int>>
+     */
     private function getDataByType(string $type): array
     {
+        /** @var array<int, array<string, string|float|int>> $data */
         $data = json_decode($this->request, true);
 
         return array_filter(
             $data,
-            fn(array $fruitData) => $fruitData['type'] === $type
+            fn(array $fruitData): bool => $fruitData['type'] === $type
         );
     }
 }

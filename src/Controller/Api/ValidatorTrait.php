@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
+use App\Entity\Entity;
+use App\Entity\Fruit;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait ValidatorTrait
 {
+    /**
+     * @param array<string, mixed> $fruitData
+     */
     private function validateRequest(array $fruitData): void
     {
         $constraints = new Assert\Collection([
@@ -30,7 +35,7 @@ trait ValidatorTrait
         $errors = $this->validator->validate($fruitData, $constraints);
 
         if ($errors->count()) {
-            throw new BadRequestException($errors->offsetGet(0)->getMessage());
+            throw new BadRequestException($errors->get(0)->getMessage());
         }
     }
 }

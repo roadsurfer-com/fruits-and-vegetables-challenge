@@ -23,6 +23,9 @@ class FruitsControllerTest extends WebTestCase
         $this->loadFruitFixtures();
     }
 
+    /**
+     * @param array<string, mixed> $filters
+     */
     #[DataProvider('searchPhrasesDataProvider')]
     public function testCanSearchByFruitName(string $phrase, array $filters, int $expectedCount): void
     {
@@ -30,7 +33,9 @@ class FruitsControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/api/fruits/search/' . $phrase, $filters);
 
         //Assert
+        /** @var string $content */
         $content = $this->client->getResponse()->getContent();
+        /** @var array<int, mixed> $data */
         $data = json_decode($content, true);
 
         $this->assertResponseIsSuccessful();
@@ -38,6 +43,9 @@ class FruitsControllerTest extends WebTestCase
         $this->assertCount($expectedCount, $data);
     }
 
+    /**
+     * @return array<string,array<string, mixed>>
+     */
     public static function searchPhrasesDataProvider(): array
     {
         // phpcs:disable Generic.Files.LineLength
@@ -56,6 +64,7 @@ class FruitsControllerTest extends WebTestCase
     {
         //Arrange
         $id = 1;
+        /** @var FruitRepository $repository */
         $repository = $this->getContainer()->get(FruitRepository::class);
         $repository->find($id);
 
@@ -82,11 +91,13 @@ class FruitsControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode($fruitData)
+            (string)json_encode($fruitData)
         );
 
         //Assert
+        /** @var string $content */
         $content = $this->client->getResponse()->getContent();
+        /** @var array<int, mixed> $data */
         $data = json_decode($content, true);
 
         $this->assertResponseIsSuccessful();
@@ -107,16 +118,20 @@ class FruitsControllerTest extends WebTestCase
             [],
             [],
             ['CONTENT_TYPE' => 'application/json'],
-            json_encode($fruitData)
+            (string)json_encode($fruitData)
         );
 
         //Assert
+        /** @var string $content */
         $content = $this->client->getResponse()->getContent();
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertStringContainsString('This value should be positive.', $content);
     }
 
+    /**
+     * @param array<string, mixed> $params
+     */
     #[DataProvider('filtersDataProvider')]
     public function testCanGetFruitsList(array $params, int $expectedCount): void
     {
@@ -124,7 +139,9 @@ class FruitsControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/api/fruits', $params);
 
         //Assert
+        /** @var string $content */
         $content = $this->client->getResponse()->getContent();
+        /** @var array<int, mixed> $data */
         $data = json_decode($content, true);
 
         $this->assertResponseIsSuccessful();
@@ -132,6 +149,9 @@ class FruitsControllerTest extends WebTestCase
         $this->assertCount($expectedCount, $data);
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function filtersDataProvider(): array
     {
         // phpcs:disable Generic.Files.LineLength
@@ -148,12 +168,17 @@ class FruitsControllerTest extends WebTestCase
         // phpcs:enable
     }
 
+    /**
+     * @param array<string, mixed> $params
+     */
     #[DataProvider('unitConverterDataProvider')]
     public function testCanGetSingleFruit(array $params, int $expectedQuantity): void
     {
         //Act
         $crawler = $this->client->request('GET', '/api/fruits/1', $params);
+        /** @var string $content */
         $content = $this->client->getResponse()->getContent();
+        /** @var array<int, mixed> $data */
         $data = json_decode($content, true);
 
         //Assert
@@ -166,6 +191,9 @@ class FruitsControllerTest extends WebTestCase
     }
 
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     public static function unitConverterDataProvider(): array
     {
         // phpcs:disable Generic.Files.LineLength

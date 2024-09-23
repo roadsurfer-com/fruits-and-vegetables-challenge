@@ -8,6 +8,9 @@ use Doctrine\Common\Collections\Criteria;
 
 final class CriteriaFactory
 {
+    /**
+     * @param array<string, float|int|string> $filters
+     */
     public static function create(array $filters): Criteria
     {
         $criteria = Criteria::create();
@@ -25,12 +28,12 @@ final class CriteriaFactory
             $criteria = $criteria->andWhere(Criteria::expr()->eq('name', $filters['name']));
         }
 
-        if (isset($filters['min_quantity'])) {
+        if (isset($filters['min_quantity']) && is_numeric($filters['min_quantity'])) {
             $filters['min_quantity'] *= $weightMultiplier;
             $criteria = $criteria->andWhere(Criteria::expr()->gte('quantity', $filters['min_quantity']));
         }
 
-        if (isset($filters['max_quantity'])) {
+        if (isset($filters['max_quantity']) && is_numeric($filters['max_quantity'])) {
             $filters['max_quantity'] *= $weightMultiplier;
             $criteria = $criteria->andWhere(Criteria::expr()->lte('quantity', $filters['max_quantity']));
         }

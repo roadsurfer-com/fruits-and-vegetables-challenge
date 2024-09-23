@@ -9,6 +9,9 @@ use App\Entity\Entity;
 
 interface TypedTransferFactory
 {
+    /**
+     * @param array<string,string|float|int> $data
+     */
     public static function createEntity(array $data): Entity;
 
     public static function createCollection(): Collection;

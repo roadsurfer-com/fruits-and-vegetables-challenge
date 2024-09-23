@@ -30,7 +30,7 @@ class FruitsController extends AbstractController
         $list = $this->fruitsService->list($criteria);
 
         if ($request->query->get('unit')) {
-            $list = $this->fruitsService->convertWeight($list, $request->query->get('unit'));
+            $list = $this->fruitsService->convertWeight($list, (string)$request->query->get('unit'));
         }
 
         return $this->json(reset($list));
@@ -45,7 +45,7 @@ class FruitsController extends AbstractController
         $list = $this->fruitsService->list($criteria);
 
         if ($request->query->get('unit')) {
-            $list = $this->fruitsService->convertWeight($list, $request->query->get('unit'));
+            $list = $this->fruitsService->convertWeight($list, (string)$request->query->get('unit'));
         }
 
         return $this->json($list);
@@ -54,6 +54,7 @@ class FruitsController extends AbstractController
     #[Route('/api/fruits', name: 'app_api_fruit_add', methods: ['POST'])]
     public function add(Request $request): JsonResponse
     {
+        /** @var array<string, float|int|string> $fruitData */
         $fruitData = json_decode($request->getContent(), true);
         $this->validateRequest($fruitData);
 
@@ -82,7 +83,7 @@ class FruitsController extends AbstractController
         $list = $this->fruitsService->list($criteria);
 
         if ($request->query->get('unit')) {
-            $list = $this->fruitsService->convertWeight($list, $request->query->get('unit'));
+            $list = $this->fruitsService->convertWeight($list, (string)$request->query->get('unit'));
         }
 
         return $this->json($list);

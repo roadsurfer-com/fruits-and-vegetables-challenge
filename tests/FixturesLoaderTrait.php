@@ -13,8 +13,7 @@ trait FixturesLoaderTrait
 {
     private function loadFruitFixtures(): void
     {
-        /** @var AbstractDatabaseTool $databaseTool */
-        $databaseTool = $this->getContainer()->get(DatabaseToolCollection::class)->get();
+        $databaseTool = $this->getDatabaseToolCollection()->get();
         $databaseTool->loadFixtures([
             FruitFixtures::class
         ]);
@@ -22,10 +21,15 @@ trait FixturesLoaderTrait
 
     private function loadVegetableFixtures(): void
     {
-        /** @var AbstractDatabaseTool $databaseTool */
-        $databaseTool = $this->getContainer()->get(DatabaseToolCollection::class)->get();
+        $databaseTool = $this->getDatabaseToolCollection()->get();
         $databaseTool->loadFixtures([
             VegetableFixtures::class
         ]);
+    }
+
+    private function getDatabaseToolCollection(): DatabaseToolCollection
+    {
+        /** @var DatabaseToolCollection */
+        return $this->getContainer()->get(DatabaseToolCollection::class);
     }
 }

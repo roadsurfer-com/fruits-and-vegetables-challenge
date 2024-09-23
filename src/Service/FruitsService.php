@@ -34,8 +34,11 @@ final class FruitsService
 
     public function remove(int $id): void
     {
-        $this->entityManager->remove($this->fruitRepository->find($id));
-        $this->entityManager->flush();
+        $fruit = $this->fruitRepository->find($id);
+        if ($fruit) {
+            $this->entityManager->remove($fruit);
+            $this->entityManager->flush();
+        }
     }
 
     /**

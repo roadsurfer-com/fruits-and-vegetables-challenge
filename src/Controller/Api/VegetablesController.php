@@ -30,7 +30,7 @@ class VegetablesController extends AbstractController
         $list = $this->vegetablesService->list($criteria);
 
         if ($request->query->get('unit')) {
-            $list = $this->vegetablesService->convertWeight($list, $request->query->get('unit'));
+            $list = $this->vegetablesService->convertWeight($list, (string)$request->query->get('unit'));
         }
 
         return $this->json(reset($list));
@@ -45,7 +45,7 @@ class VegetablesController extends AbstractController
         $list = $this->vegetablesService->list($criteria);
 
         if ($request->query->get('unit')) {
-            $list = $this->vegetablesService->convertWeight($list, $request->query->get('unit'));
+            $list = $this->vegetablesService->convertWeight($list, (string)$request->query->get('unit'));
         }
 
         return $this->json($list);
@@ -54,6 +54,7 @@ class VegetablesController extends AbstractController
     #[Route('/api/vegetables', name: 'app_api_vegetable_add', methods: ['POST'])]
     public function add(Request $request): JsonResponse
     {
+        /** @var array<string, float|int|string> $vegetableData */
         $vegetableData = json_decode($request->getContent(), true);
         $this->validateRequest($vegetableData);
         $vegetable = VegetableFactory::createEntity($vegetableData);
@@ -81,7 +82,7 @@ class VegetablesController extends AbstractController
         $list = $this->vegetablesService->list($criteria);
 
         if ($request->query->get('unit')) {
-            $list = $this->vegetablesService->convertWeight($list, $request->query->get('unit'));
+            $list = $this->vegetablesService->convertWeight($list, (string)$request->query->get('unit'));
         }
 
         return $this->json($list);
