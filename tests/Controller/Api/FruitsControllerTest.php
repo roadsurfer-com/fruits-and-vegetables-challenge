@@ -9,6 +9,7 @@ use App\Tests\FixturesLoaderTrait;
 use App\Tests\WebTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class FruitsControllerTest extends WebTestCase
 {
@@ -92,6 +93,28 @@ class FruitsControllerTest extends WebTestCase
         $this->assertJson($content);
         $this->assertNotEmpty($data);
         $this->assertEquals(['id' => 11, 'unit' => 'g'] + $fruitData, $data);
+    }
+
+    public function testCannotAddNewFruitWithWrongRequestData(): void
+    {
+        //Arrange
+        $fruitData = ['name' => 'Orange', 'quantity' => -1000.0];
+
+        //Act
+        $this->client->request(
+            'POST',
+            '/api/fruits',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($fruitData)
+        );
+
+        //Assert
+        $content = $this->client->getResponse()->getContent();
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertStringContainsString('This value should be positive.', $content);
     }
 
     #[DataProvider('filtersDataProvider')]

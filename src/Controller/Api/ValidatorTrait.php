@@ -30,7 +30,7 @@ trait ValidatorTrait
         $errors = $this->validator->validate($fruitData, $constraints);
 
         if ($errors->count()) {
-            throw new BadRequestException($errors);
+            throw new BadRequestException($errors->offsetGet(0)->getMessage());
         }
     }
 }

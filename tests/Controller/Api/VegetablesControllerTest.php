@@ -72,7 +72,7 @@ class VegetablesControllerTest extends WebTestCase
     public function testCanAddNewVegetable(): void
     {
         //Arrange
-        $vegetableData = ['name' => 'Tomatos', 'quantity' => 1000];
+        $vegetableData = ['name' => 'Tomatoes', 'quantity' => 1000];
 
         //Act
         $this->client->request(
@@ -92,6 +92,28 @@ class VegetablesControllerTest extends WebTestCase
         $this->assertJson($content);
         $this->assertNotEmpty($data);
         $this->assertEquals(['id' => 11, 'unit' => 'g'] + $vegetableData, $data);
+    }
+
+    public function testCannotAddNewVegetableWithWrongRequestData(): void
+    {
+        //Arrange
+        $fruitData = ['name' => 'Tomatoes', 'quantity' => -1000.0];
+
+        //Act
+        $this->client->request(
+            'POST',
+            '/api/fruits',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            json_encode($fruitData)
+        );
+
+        //Assert
+        $content = $this->client->getResponse()->getContent();
+
+        $this->assertResponseStatusCodeSame(400);
+        $this->assertStringContainsString('This value should be positive.', $content);
     }
 
     #[DataProvider('filtersDataProvider')]
